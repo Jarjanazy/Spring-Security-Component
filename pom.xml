@@ -6,7 +6,7 @@
 >
 	<modelVersion>4.0.0</modelVersion>
 
-	<groupId>codeit</groupId>
+	<groupId>codeit.components</groupId>
 	<artifactId>spring-security-component</artifactId>
 	<version>1</version>
 	<name>spring-security-component</name>
@@ -24,6 +24,7 @@
 
 	<modules>
 		<module>spring-security</module>
+		<module>feature-tests</module>
 	</modules>
 
 	<dependencyManagement>

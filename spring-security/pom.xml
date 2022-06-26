@@ -6,7 +6,7 @@
 >
 
 	<parent>
-		<groupId>codeit</groupId>
+		<groupId>codeit.components</groupId>
 		<artifactId>spring-security-component</artifactId>
 		<version>1</version>
 	</parent>
