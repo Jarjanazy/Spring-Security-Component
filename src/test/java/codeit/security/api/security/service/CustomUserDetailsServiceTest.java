@@ -32,7 +32,7 @@ public class CustomUserDetailsServiceTest
     }
 
     @Test
-    public void givenUserName_WhenUserIsFound_ThenCreateCustomUserDetails()
+    public void givenUserName_WhenUserIsFoundInDB_ThenCreateCustomUserDetails()
     {
         Authority authority = Authority.builder().role("testRole").build();
         User user = User

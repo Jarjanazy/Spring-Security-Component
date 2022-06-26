@@ -82,7 +82,7 @@ public class AuthenticationApiServiceTest
     }
 
     @Test
-    public void givenARefreshToken_WhenValidButDosentExistInDB_ThenCreateAnAccessToken()
+    public void givenARefreshToken_WhenValidButDosentExistInDB_ThenReturnError()
     {
         when(jwtService.extractJWTFromAuthorizationHeader(any(HttpServletRequest.class))).thenReturn(Optional.of("refreshToken"));
 
@@ -103,7 +103,7 @@ public class AuthenticationApiServiceTest
     }
 
     @Test
-    public void givenAnAuthenticationRequest_WhenUserNotFound_DetectException()
+    public void givenAnAuthenticationRequest_WhenUserNotFound_ThenReturnError()
     {
         AuthenticationRequest authenticationRequest = new AuthenticationRequest("userName", "password");
 
