@@ -9,10 +9,10 @@
 		<relativePath/> <!-- lookup parent from repository -->
 	</parent>
 	<groupId>codeit</groupId>
-	<artifactId>lacarta</artifactId>
+	<artifactId>spring-security-component</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
-	<name>lacarta</name>
-	<description>LaCarta</description>
+	<name>spring-security-component</name>
+	<description>Spring Security Component</description>
 	<properties>
 		<java.version>11</java.version>
 	</properties>
