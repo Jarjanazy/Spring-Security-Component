@@ -71,6 +71,42 @@
 				<version>2.9.2</version>
 			</dependency>
 
+			<dependency>
+				<groupId>io.cucumber</groupId>
+				<artifactId>cucumber-java</artifactId>
+				<version>7.4.1</version>
+			</dependency>
+
+			<dependency>
+				<groupId>io.cucumber</groupId>
+				<artifactId>cucumber-junit</artifactId>
+				<version>7.4.1</version>
+				<scope>test</scope>
+			</dependency>
+
+
+			<dependency>
+				<groupId>org.junit.vintage</groupId>
+				<artifactId>junit-vintage-engine</artifactId>
+				<version>5.9.0-M1</version>
+				<scope>test</scope>
+			</dependency>
+
+			<dependency>
+				<groupId>io.cucumber</groupId>
+				<artifactId>cucumber-spring</artifactId>
+				<version>7.4.1</version>
+				<scope>test</scope>
+			</dependency>
+
+			<dependency>
+				<groupId>io.rest-assured</groupId>
+				<artifactId>rest-assured</artifactId>
+				<version>5.1.1</version>
+				<scope>test</scope>
+			</dependency>
+
+
 		</dependencies>
 
 	</dependencyManagement>
