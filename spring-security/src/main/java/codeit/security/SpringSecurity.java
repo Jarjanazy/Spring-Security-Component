@@ -1,13 +1,13 @@
-package codeit.components.springsecurityfeaturetests;
+package codeit.security;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
 @SpringBootApplication
-public class SpringSecurityFeatureTestsApplication {
+public class SpringSecurity {
 
 	public static void main(String[] args) {
-		SpringApplication.run(SpringSecurityFeatureTestsApplication.class, args);
+		SpringApplication.run(SpringSecurity.class, args);
 	}
 
 }
