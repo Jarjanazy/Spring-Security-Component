@@ -1,7 +1,6 @@
 package codeit.security.api.signup;
 
 import codeit.security.api.common.response.Response;
-import codeit.security.api.common.response.IResponse;
 import codeit.security.api.signup.dto.SignUpRequestDTO;
 import codeit.security.api.signup.dto.SignUpIResponseDTO;
 import codeit.security.domain.user.entity.Authority;
@@ -50,9 +49,9 @@ public class SignUpApiServiceTest
 
         when(userRepo.findByUserName("userName")).thenReturn(Optional.of(userToBeReturned));
 
-        ResponseEntity<IResponse> response = signUpApiService.signUp(new SignUpRequestDTO("userName", "password", "email"));
+        ResponseEntity<Response> response = signUpApiService.signUp(new SignUpRequestDTO("userName", "password", "email"));
 
-        Response errorResponse = (Response) response.getBody();
+        Response errorResponse = response.getBody();
 
         assertThat(response.getStatusCode()).isEqualTo(HttpStatus.CONFLICT);
         assertThat(errorResponse.getMessage()).isEqualTo("The user name userName already exists");
@@ -68,7 +67,7 @@ public class SignUpApiServiceTest
 
         SignUpRequestDTO signUpRequestDTO = new SignUpRequestDTO("userName", "password", "email");
 
-        ResponseEntity<IResponse> result = signUpApiService.signUp(signUpRequestDTO);
+        ResponseEntity<Response> result = signUpApiService.signUp(signUpRequestDTO);
 
         SignUpIResponseDTO signUpResponseDTO = (SignUpIResponseDTO) result.getBody();
 

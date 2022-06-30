@@ -6,7 +6,7 @@ import org.springframework.http.ResponseEntity;
 public class ResponseFactory
 {
 
-    public static ResponseEntity<IResponse> createResponse(String message, HttpStatus httpStatus)
+    public static ResponseEntity<Response> createResponse(String message, HttpStatus httpStatus)
     {
         return ResponseEntity
                 .status(httpStatus)

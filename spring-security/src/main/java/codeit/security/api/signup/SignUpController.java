@@ -1,7 +1,7 @@
 package codeit.security.api.signup;
 
 
-import codeit.security.api.common.response.IResponse;
+import codeit.security.api.common.response.Response;
 import codeit.security.api.signup.dto.SignUpRequestDTO;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
@@ -16,7 +16,7 @@ public class SignUpController {
     private final SignUpApiService signUpApiService;
 
     @PostMapping("/signup")
-    public ResponseEntity<IResponse> signUp(@Validated @RequestBody SignUpRequestDTO signUpRequestDTO)
+    public ResponseEntity<Response> signUp(@Validated @RequestBody SignUpRequestDTO signUpRequestDTO)
     {
         return signUpApiService.signUp(signUpRequestDTO);
     }

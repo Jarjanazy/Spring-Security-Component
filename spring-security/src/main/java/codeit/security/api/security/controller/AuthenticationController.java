@@ -1,6 +1,6 @@
 package codeit.security.api.security.controller;
 
-import codeit.security.api.common.response.IResponse;
+import codeit.security.api.common.response.Response;
 import codeit.security.api.security.dto.AuthenticationRequest;
 import codeit.security.api.security.dto.SignOutRequestDto;
 import codeit.security.api.security.service.AuthenticationApiService;
@@ -20,13 +20,13 @@ public class AuthenticationController {
     private final AuthenticationApiService authenticationApiService;
 
     @PostMapping("/authenticate")
-    public ResponseEntity<IResponse> verifyAndCreateAuthToken(@RequestBody AuthenticationRequest authenticationRequest)
+    public ResponseEntity<Response> verifyAndCreateAuthToken(@RequestBody AuthenticationRequest authenticationRequest)
     {
         return authenticationApiService.verifyAndCreateAuthToken(authenticationRequest);
     }
 
     @GetMapping("/refreshToken")
-    public ResponseEntity<IResponse> createAccessTokenFromRefreshToken(HttpServletRequest servletRequest)
+    public ResponseEntity<Response> createAccessTokenFromRefreshToken(HttpServletRequest servletRequest)
     {
         return authenticationApiService.createAccessTokenFromRefreshToken(servletRequest);
     }

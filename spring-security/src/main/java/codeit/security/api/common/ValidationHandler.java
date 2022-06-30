@@ -1,6 +1,6 @@
 package codeit.security.api.common;
 
-import codeit.security.api.common.response.IResponse;
+import codeit.security.api.common.response.Response;
 import org.springframework.core.Ordered;
 import org.springframework.core.annotation.Order;
 import org.springframework.http.ResponseEntity;
@@ -22,7 +22,7 @@ public class ValidationHandler{
     @ResponseStatus(BAD_REQUEST)
     @ResponseBody
     @ExceptionHandler(MethodArgumentNotValidException.class)
-    public ResponseEntity<IResponse> methodArgumentNotValidException(MethodArgumentNotValidException ex) {
+    public ResponseEntity<Response> methodArgumentNotValidException(MethodArgumentNotValidException ex) {
         BindingResult result = ex.getBindingResult();
 
         List<FieldError> fieldErrors = result.getFieldErrors();

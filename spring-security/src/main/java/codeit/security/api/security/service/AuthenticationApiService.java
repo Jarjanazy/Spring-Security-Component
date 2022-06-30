@@ -1,8 +1,8 @@
 package codeit.security.api.security.service;
 
-import codeit.security.api.common.response.IResponse;
-import codeit.security.api.security.dto.AuthenticationIResponse;
+import codeit.security.api.common.response.Response;
 import codeit.security.api.security.dto.AuthenticationRequest;
+import codeit.security.api.security.dto.AuthenticationResponse;
 import codeit.security.api.security.dto.SignOutRequestDto;
 import codeit.security.api.security.refreshtoken.RefreshTokenService;
 import codeit.security.domain.user.entity.User;
@@ -39,7 +39,7 @@ public class AuthenticationApiService
         return ResponseEntity.ok().build();
     }
 
-    public ResponseEntity<IResponse> verifyAndCreateAuthToken(AuthenticationRequest authenticationRequest)
+    public ResponseEntity<Response> verifyAndCreateAuthToken(AuthenticationRequest authenticationRequest)
     {
         try{
 
@@ -55,7 +55,7 @@ public class AuthenticationApiService
         }
     }
 
-    public ResponseEntity<IResponse> createAccessTokenFromRefreshToken(HttpServletRequest servletRequest)
+    public ResponseEntity<Response> createAccessTokenFromRefreshToken(HttpServletRequest servletRequest)
     {
         Optional<String> refreshTokenOptional = jwtService.extractJWTFromAuthorizationHeader(servletRequest);
         if (refreshTokenOptional.isEmpty())
@@ -69,14 +69,14 @@ public class AuthenticationApiService
             return createResponse("The refresh token is invalid", BAD_REQUEST);
     }
 
-    private AuthenticationIResponse createAccessTokenFromRefreshToken(String refreshToken)
+    private AuthenticationResponse createAccessTokenFromRefreshToken(String refreshToken)
     {
         CustomUserDetails userDetails = CustomUserDetails.builder().userName(jwtService.extractUsername(refreshToken)).build();
         String newAccessToken = createAccessToken(userDetails);
-        return new AuthenticationIResponse(newAccessToken);
+        return new AuthenticationResponse(newAccessToken);
     }
 
-    private AuthenticationIResponse createAuthToken(AuthenticationRequest authenticationRequest) {
+    private AuthenticationResponse createAuthToken(AuthenticationRequest authenticationRequest) {
         UserDetails userDetails =  customUserDetailService.loadUserByUsername(authenticationRequest.getUserName());
 
         User user = userRepo.
@@ -87,7 +87,7 @@ public class AuthenticationApiService
 
         refreshTokenService.saveNewRefreshToken(refreshToken, user);
 
-        return new AuthenticationIResponse(refreshToken, createAccessToken(userDetails), user.getUserName());
+        return new AuthenticationResponse(refreshToken, createAccessToken(userDetails), user.getUserName());
     }
 
     // if this method runs successfully it means that authentication done successfully

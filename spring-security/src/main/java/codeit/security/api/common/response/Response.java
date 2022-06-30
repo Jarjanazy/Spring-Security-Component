@@ -8,8 +8,7 @@ import org.springframework.http.HttpStatus;
 @AllArgsConstructor
 @NoArgsConstructor
 @Getter
-public class Response implements IResponse
-{
+public class Response {
     private String message;
     private Integer code;
 

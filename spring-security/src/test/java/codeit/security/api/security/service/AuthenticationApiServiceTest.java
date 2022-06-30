@@ -1,13 +1,12 @@
 package codeit.security.api.security.service;
 
 import codeit.security.api.common.response.Response;
-import codeit.security.api.common.response.IResponse;
 import codeit.security.api.security.dto.AuthenticationRequest;
 import codeit.security.api.security.dto.SignOutRequestDto;
 import codeit.security.api.security.refreshtoken.RefreshToken;
 import codeit.security.api.security.refreshtoken.RefreshTokenRepository;
 import codeit.security.api.security.refreshtoken.RefreshTokenService;
-import codeit.security.api.security.dto.AuthenticationIResponse;
+import codeit.security.api.security.dto.AuthenticationResponse;
 import codeit.security.domain.user.entity.User;
 import codeit.security.domain.user.repo.IUserRepo;
 import org.junit.jupiter.api.BeforeEach;
@@ -72,9 +71,9 @@ public class AuthenticationApiServiceTest
 
         when(refreshTokenRepository.findByValue("refreshToken")).thenReturn(Optional.of(new RefreshToken()));
 
-        ResponseEntity<IResponse> response = authenticationApiService.createAccessTokenFromRefreshToken(new MockHttpServletRequest());
+        ResponseEntity<Response> response = authenticationApiService.createAccessTokenFromRefreshToken(new MockHttpServletRequest());
 
-        AuthenticationIResponse authenticationResponse = (AuthenticationIResponse) response.getBody();
+        AuthenticationResponse authenticationResponse = (AuthenticationResponse) response.getBody();
 
         assertThat("accessToken").isEqualTo(authenticationResponse.getAccessToken());
         assertThat(authenticationResponse.getRefreshToken()).isNull();
@@ -94,9 +93,9 @@ public class AuthenticationApiServiceTest
 
         when(refreshTokenRepository.findByValue("refreshToken")).thenReturn(Optional.empty());
 
-        ResponseEntity<IResponse> response = authenticationApiService.createAccessTokenFromRefreshToken(new MockHttpServletRequest());
+        ResponseEntity<Response> response = authenticationApiService.createAccessTokenFromRefreshToken(new MockHttpServletRequest());
 
-        Response errorResponse = (Response) response.getBody();
+        Response errorResponse = response.getBody();
 
         assertThat(HttpStatus.BAD_REQUEST.value()).isEqualTo(errorResponse.getCode());
         assertThat("The refresh token is invalid").isEqualTo(errorResponse.getMessage());
@@ -110,9 +109,9 @@ public class AuthenticationApiServiceTest
         when(customUserDetailsService.loadUserByUsername("userName")).thenReturn(CustomUserDetails.builder().userName("userName").build());
 
         when(userRepo.findByUserName("userName")).thenReturn(Optional.empty());
-        ResponseEntity<IResponse> response = authenticationApiService.verifyAndCreateAuthToken(authenticationRequest);
+        ResponseEntity<Response> response = authenticationApiService.verifyAndCreateAuthToken(authenticationRequest);
 
-        Response errorResponse = (Response) response.getBody();
+        Response errorResponse = response.getBody();
         assertThat(errorResponse.getMessage()).isEqualTo("The username userName isn't found");
         assertThat(errorResponse.getCode()).isEqualTo(HttpStatus.BAD_REQUEST.value());
     }
@@ -134,9 +133,9 @@ public class AuthenticationApiServiceTest
 
         when(jwtService.createToken(userDetails, Optional.of(1000 * 60 * 30))).thenReturn("accessToken");
 
-        ResponseEntity<IResponse> response = authenticationApiService.verifyAndCreateAuthToken(authenticationRequest);
+        ResponseEntity<Response> response = authenticationApiService.verifyAndCreateAuthToken(authenticationRequest);
 
-        AuthenticationIResponse authenticationResponse = (AuthenticationIResponse) response.getBody();
+        AuthenticationResponse authenticationResponse = (AuthenticationResponse) response.getBody();
 
         verify(refreshTokenRepository).save(refreshTokenArgumentCaptor.capture());
 

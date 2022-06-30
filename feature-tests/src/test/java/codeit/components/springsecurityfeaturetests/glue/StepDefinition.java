@@ -2,7 +2,6 @@ package codeit.components.springsecurityfeaturetests.glue;
 
 
 import codeit.components.springsecurityfeaturetests.exception.FeatureTestException;
-import codeit.security.api.common.response.IResponse;
 import codeit.security.api.common.response.Response;
 import codeit.security.api.security.dto.AuthenticationRequest;
 import codeit.security.api.signup.dto.SignUpRequestDTO;

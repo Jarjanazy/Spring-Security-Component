@@ -1,19 +1,18 @@
 package codeit.security.api.security.dto;
 
-import codeit.security.api.common.response.IResponse;
+import codeit.security.api.common.response.Response;
 import lombok.*;
 
 @NoArgsConstructor
 @AllArgsConstructor
 @Setter
 @Getter
-public class AuthenticationIResponse implements IResponse
-{
+public class AuthenticationResponse extends Response {
     private String refreshToken;
     private String accessToken;
     private String userName;
 
-    public AuthenticationIResponse(String accessToken)
+    public AuthenticationResponse(String accessToken)
     {
         this.accessToken = accessToken;
     }
