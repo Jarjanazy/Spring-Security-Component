@@ -73,9 +73,12 @@ public class AuthenticationApiServiceTest
 
         ResponseEntity<Response> response = authenticationApiService.createAccessTokenFromRefreshToken(new MockHttpServletRequest());
 
-        AuthenticationResponse authenticationResponse = (AuthenticationResponse) response.getBody();
+        AuthenticationResponse authenticationResponse = (AuthenticationResponse) response.getBody().getBody();
 
         assertThat("accessToken").isEqualTo(authenticationResponse.getAccessToken());
+        assertThat(response.getStatusCode()).isEqualTo(HttpStatus.CREATED);
+        assertThat(response.getBody().getCode()).isEqualTo(HttpStatus.CREATED.value());
+        assertThat(response.getBody().getMessage()).isEqualTo("New Access Token is Created");
         assertThat(authenticationResponse.getRefreshToken()).isNull();
         assertThat(authenticationResponse.getUserName()).isNull();
     }
@@ -98,6 +101,8 @@ public class AuthenticationApiServiceTest
         Response errorResponse = response.getBody();
 
         assertThat(HttpStatus.BAD_REQUEST.value()).isEqualTo(errorResponse.getCode());
+        assertThat(errorResponse.getCode()).isEqualTo(HttpStatus.BAD_REQUEST.value());
+        assertThat(errorResponse.getBody()).isNull();
         assertThat("The refresh token is invalid").isEqualTo(errorResponse.getMessage());
     }
 
@@ -114,6 +119,7 @@ public class AuthenticationApiServiceTest
         Response errorResponse = response.getBody();
         assertThat(errorResponse.getMessage()).isEqualTo("The username userName isn't found");
         assertThat(errorResponse.getCode()).isEqualTo(HttpStatus.BAD_REQUEST.value());
+        assertThat(errorResponse.getBody()).isNull();
     }
 
     @Test
@@ -135,7 +141,7 @@ public class AuthenticationApiServiceTest
 
         ResponseEntity<Response> response = authenticationApiService.verifyAndCreateAuthToken(authenticationRequest);
 
-        AuthenticationResponse authenticationResponse = (AuthenticationResponse) response.getBody();
+        AuthenticationResponse authenticationResponse = (AuthenticationResponse) response.getBody().getBody();
 
         verify(refreshTokenRepository).save(refreshTokenArgumentCaptor.capture());
 
@@ -144,6 +150,10 @@ public class AuthenticationApiServiceTest
         assertThat(authenticationResponse.getRefreshToken()).isEqualTo("refreshToken");
         assertThat(authenticationResponse.getAccessToken()).isEqualTo("accessToken");
         assertThat(authenticationResponse.getUserName()).isEqualTo("userName");
+
+        assertThat(response.getStatusCode()).isEqualTo(HttpStatus.CREATED);
+        assertThat(response.getBody().getCode()).isEqualTo(HttpStatus.CREATED.value());
+        assertThat(response.getBody().getMessage()).isEqualTo("New Refresh Token is Created");
 
         assertThat(savedRefreshToken.getValue()).isEqualTo("refreshToken");
         assertThat(savedRefreshToken.getUserId()).isEqualTo(1);
@@ -155,10 +165,14 @@ public class AuthenticationApiServiceTest
     {
         SignOutRequestDto signOutRequestDto = new SignOutRequestDto("refresh token");
 
-        ResponseEntity<Void> response = authenticationApiService.signout(signOutRequestDto);
+        ResponseEntity<Response> response = authenticationApiService.signout(signOutRequestDto);
 
         verify(refreshTokenRepository).deleteByValue("refresh token");
 
         assertThat(response.getStatusCode()).isEqualTo(HttpStatus.OK);
+        Response body = response.getBody();
+        assertThat(body.getBody()).isNull();
+        assertThat(body.getCode()).isEqualTo(HttpStatus.OK.value());
+        assertThat(body.getMessage()).isEqualTo("Refresh Token is Deleted");
     }
 }

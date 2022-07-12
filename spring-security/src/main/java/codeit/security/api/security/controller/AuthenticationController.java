@@ -32,7 +32,7 @@ public class AuthenticationController {
     }
 
     @PostMapping("/signout")
-    public ResponseEntity<Void> signout(@RequestBody SignOutRequestDto signOutRequestDto)
+    public ResponseEntity<Response> signout(@RequestBody SignOutRequestDto signOutRequestDto)
     {
         return authenticationApiService.signout(signOutRequestDto);
     }

@@ -8,6 +8,7 @@ import codeit.security.api.security.refreshtoken.RefreshTokenService;
 import codeit.security.domain.user.entity.User;
 import codeit.security.domain.user.repo.IUserRepo;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -20,6 +21,7 @@ import javax.servlet.http.HttpServletRequest;
 import java.util.Optional;
 
 import static codeit.security.api.common.response.ResponseFactory.createResponse;
+import static codeit.security.api.common.response.ResponseFactory.createResponseWithBody;
 import static org.springframework.http.HttpStatus.BAD_REQUEST;
 import static org.springframework.http.HttpStatus.UNAUTHORIZED;
 
@@ -33,10 +35,10 @@ public class AuthenticationApiService
     private final JwtService jwtService;
     private final RefreshTokenService refreshTokenService;
 
-    public ResponseEntity<Void> signout(SignOutRequestDto signOutRequestDto)
+    public ResponseEntity<Response> signout(SignOutRequestDto signOutRequestDto)
     {
         refreshTokenService.deleteByValue(signOutRequestDto.getRefreshToken());
-        return ResponseEntity.ok().build();
+        return createResponse("Refresh Token is Deleted", HttpStatus.OK);
     }
 
     public ResponseEntity<Response> verifyAndCreateAuthToken(AuthenticationRequest authenticationRequest)
@@ -45,7 +47,10 @@ public class AuthenticationApiService
 
             verifyAuthenticationRequest(authenticationRequest);
 
-            return ResponseEntity.ok(createAuthToken(authenticationRequest));
+            return createResponseWithBody(
+                    "New Refresh Token is Created",
+                    HttpStatus.CREATED,
+                    createAuthToken(authenticationRequest));
 
         }catch (AuthenticationException e){
             return createResponse("Wrong Username or Password", UNAUTHORIZED);
@@ -63,7 +68,10 @@ public class AuthenticationApiService
 
         String refreshToken = refreshTokenOptional.get();
         if (jwtService.tokenIsValid(refreshToken) && refreshTokenService.refreshTokenExists(refreshToken)){
-            return ResponseEntity.ok(createAccessTokenFromRefreshToken(refreshToken));
+            return createResponseWithBody(
+                    "New Access Token is Created",
+                    HttpStatus.CREATED,
+                    createAccessTokenFromRefreshToken(refreshToken));
         }
         else
             return createResponse("The refresh token is invalid", BAD_REQUEST);
