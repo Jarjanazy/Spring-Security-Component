@@ -54,6 +54,8 @@ public class SignUpApiServiceTest
         Response errorResponse = response.getBody();
 
         assertThat(response.getStatusCode()).isEqualTo(HttpStatus.CONFLICT);
+        assertThat(errorResponse.getBody()).isNull();
+        assertThat(errorResponse.getCode()).isEqualTo(HttpStatus.CONFLICT.value());
         assertThat(errorResponse.getMessage()).isEqualTo("The user name userName already exists");
     }
 
@@ -69,11 +71,13 @@ public class SignUpApiServiceTest
 
         ResponseEntity<Response> result = signUpApiService.signUp(signUpRequestDTO);
 
-        SignUpIResponseDTO signUpResponseDTO = (SignUpIResponseDTO) result.getBody();
+        SignUpIResponseDTO signUpResponseDTO = (SignUpIResponseDTO) result.getBody().getBody();
 
         verify(userRepo).save(userArgumentCaptor.capture());
 
         assertThat(result.getStatusCode()).isEqualTo(HttpStatus.CREATED);
+        assertThat(result.getBody().getCode()).isEqualTo(HttpStatus.CREATED.value());
+        assertThat(result.getBody().getMessage()).isEqualTo("User Created");
         assertThat(signUpResponseDTO.getUserName()).isEqualTo("userName");
         assertThat(userArgumentCaptor.getValue().isEnabled()).isTrue();
     }

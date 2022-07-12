@@ -11,6 +11,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import static codeit.security.api.common.response.ResponseFactory.createResponse;
+import static codeit.security.api.common.response.ResponseFactory.createResponseWithBody;
 import static org.springframework.http.HttpStatus.CONFLICT;
 
 @Service
@@ -35,7 +36,7 @@ public class SignUpApiService
 
         userRepo.save(newUser);
 
-        return ResponseEntity.status(HttpStatus.CREATED).body(SignUpIResponseDTO.fromUser(newUser));
+        return createResponseWithBody("User Created", HttpStatus.CREATED, SignUpIResponseDTO.fromUser(newUser));
     }
 
     private User createUserFromSignUpDTO(SignUpRequestDTO signUpRequestDTO) {

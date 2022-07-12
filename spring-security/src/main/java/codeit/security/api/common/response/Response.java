@@ -11,10 +11,17 @@ import org.springframework.http.HttpStatus;
 public class Response {
     private String message;
     private Integer code;
+    private Object body;
 
     public Response(String message, HttpStatus httpStatus)
     {
         this.message = message;
         this.code = httpStatus.value();
+    }
+
+    public Response(String message, HttpStatus httpStatus, Object body) {
+        this.message = message;
+        this.code = httpStatus.value();
+        this.body = body;
     }
 }

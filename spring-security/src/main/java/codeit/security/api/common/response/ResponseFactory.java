@@ -12,4 +12,10 @@ public class ResponseFactory
                 .status(httpStatus)
                 .body(new Response(message, httpStatus));
     }
+    public static ResponseEntity<Response> createResponseWithBody(String message, HttpStatus httpStatus, Object body)
+    {
+        return ResponseEntity
+                .status(httpStatus)
+                .body(new Response(message, httpStatus, body));
+    }
 }
